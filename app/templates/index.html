@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="jumbotron">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h1 class="display-3">E-partograph</h1>
+        <p class="lead is-styled-font">Revolutionizing the medical world</p>
+        <hr class="my-2">
+        <p>Getting effective treatment depends on identifying the right problem. In a recent study, 88 percent of
+          patients who came to the Clinic for a second opinion received a new or refined diagnosis.</p>
+      </div>
+      <div class="col-md-6">
+        <img src="{{ url_for('static', filename='images/landing.svg') }}" class="img-fluid" alt="doctor nurse">
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

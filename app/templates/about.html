@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <h1 class="display-5">About Us</h1>
+      <hr>
+      <img src="{{ url_for('static', filename='images/about.svg') }}" class="img-fluid" alt="">
+      <p>
+        For our +50 years' experience of providing healthcare to the local community, superb facilities with continuous
+        investment in facilities and technology and high standards of nursing care and a friendly atmosphere. 99% of our
+        patients who completed our feedback questionnaire rated us as very good.
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

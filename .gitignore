@@ -1,0 +1,6 @@
+.vscode/
+
+__pycache__/
+app/__pycache__/
+app/admin/__pycache__/
+app/home/__pycache__/
