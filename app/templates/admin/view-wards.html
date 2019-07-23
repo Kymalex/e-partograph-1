@@ -2,7 +2,7 @@
 
 {% block content %}
 <h3>Wards</h3>
-<a href="{{ url_for('admin.create_ward') }}"><i data-feather="edit"></i></a>
+<a href="{{ url_for('admin.create_ward') }}"><i data-feather="edit"></i> Create New</a>
 <hr>
 {{ nurse }}
 <div class="table-responsive-sm">
@@ -13,7 +13,6 @@
         <th>Name</th>
         <th>Beds</th>
         <th>Nurse</th>
-        <th>Action</th>
       </tr>
     </thead>
     <tbody>
@@ -23,7 +22,6 @@
         <td>{{ ward.name }}</td>
         <td>{{ ward.beds }}</td>
         <td>{{ ward.nurse_id }}</td>
-        <td><a href=""><i data-feather="trash-2"></i></a></td>
       </tr>
       {% endfor %}
     </tbody>

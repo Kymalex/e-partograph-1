@@ -26,6 +26,9 @@ def create_app(env_name):
   boostrap.init_app(app)
   login_manager.init_app(app)
 
+  login_manager.login_view = 'admin.login'
+  login_manager.login_message = 'User verification is required to access this page'
+
   # import app models
   from app.models import Nurse, Patient, Ward, Record
 

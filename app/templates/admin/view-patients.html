@@ -2,7 +2,7 @@
 
 {% block content %}
 <h3>Patients</h3>
-<a href="{{ url_for('admin.create_patient') }}"><i data-feather="edit"></i></a>
+<a href="{{ url_for('admin.create_patient') }}"><i data-feather="edit"></i>  Create New</a>
 <hr>
 <div class="table-responsive-sm">
   <table class="table table-hover">
@@ -16,7 +16,6 @@
         <th>ID No.</th>
         <th>NHIF No.</th>
         <th>Ward ID</th>
-        <th>Action</th>
       </tr>
     </thead>
     <tbody>
@@ -30,7 +29,6 @@
         <td>{{ patient.id_no }}</td>
         <td>{{ patient.nhif_no }}</td>
         <td>{{ patient.ward_id }}</td>
-        <td><a href=""><i data-feather="trash-2"></i></a></td>
       </tr>
       {% endfor %}
     </tbody>

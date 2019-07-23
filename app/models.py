@@ -7,14 +7,15 @@ from random import randint
 
 # 3rd party imports
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 from sqlalchemy.exc import IntegrityError
 from random import seed
 import forgery_py
 
 # local imports
-from app import db
+from app import db, login_manager
 
-class Nurse(db.Model):
+class Nurse(UserMixin, db.Model):
   '''
   create nurses table
   '''
@@ -68,6 +69,10 @@ class Nurse(db.Model):
 
   def __repr__(self):
     return '<Nurse: {}>'.format(self.emp_id)
+
+@login_manager.user_loader
+def load_user(id):
+  return Nurse.query.get(int(id))
 
 class Patient(db.Model):
   '''
