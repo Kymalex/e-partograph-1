@@ -21,6 +21,14 @@ class CreateNurseForm(FlaskForm):
   confirm_password = PasswordField('Confirm Password: ', validators=[DataRequired(), EqualTo(password)])
   create = SubmitField('Create Nurse')
 
+class AuthenticateNurseForm(FlaskForm):
+  '''
+  Form to authenticate a nurse
+  '''
+  email = StringField('Email: ', validators=[DataRequired(), Email()])
+  password = PasswordField('Password: ', validators=[DataRequired()])
+  login = SubmitField('Login')
+
 class CreateWardForm(FlaskForm):
   '''
   Form to create a new Ward

@@ -5,12 +5,14 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_bootstrap import Bootstrap
+from flask_login import LoginManager
 
 # local imports
 from config import app_config
 
 db = SQLAlchemy()
 boostrap = Bootstrap()
+login_manager = LoginManager()
 
 def create_app(env_name):
 
@@ -22,6 +24,7 @@ def create_app(env_name):
   migrate = Migrate(app=app, db=db)
 
   boostrap.init_app(app)
+  login_manager.init_app(app)
 
   # import app models
   from app.models import Nurse, Patient, Ward, Record

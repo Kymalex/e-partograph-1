@@ -6,7 +6,7 @@ from flask import render_template, flash, redirect, url_for, request
 # local imports
 from app.admin import admin
 from app.models import Nurse, Ward, Patient
-from app.admin.forms import CreateNurseForm, CreateWardForm, CreatePatientForm
+from app.admin.forms import CreateNurseForm, CreateWardForm, CreatePatientForm, AuthenticateNurseForm
 
 @admin.route('/admin/create-nurse', methods=['GET', 'POST'])
 def create_nurse():
@@ -32,6 +32,21 @@ def create_nurse():
         flash('User exists please try again')
 
   return render_template('admin/create-nurse.html', title='Nurses', form=form)
+
+@admin.route('/login', methods=['GET', 'POST'])
+def login():
+  '''
+  authenticate a nurse
+  '''
+  form = AuthenticateNurseForm()
+
+  if request.method == 'POST':
+    if form.validate_on_submit:
+      nurse = Nurse.query.filter_by(email = form.email.data).first()
+      if nurse is None:
+        nurse = Nurse()
+
+  return render_template('admin/login.html', title='Login', form=form)
 
 @admin.route('/admin/create-ward', methods=['GET', 'POST'])
 def create_ward():
