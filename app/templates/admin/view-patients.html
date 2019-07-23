@@ -1,0 +1,39 @@
+{% extends 'admin/layout.html' %}
+
+{% block content %}
+<h3>Patients</h3>
+<a href="{{ url_for('admin.create_patient') }}"><i data-feather="edit"></i></a>
+<hr>
+<div class="table-responsive-sm">
+  <table class="table table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>D.O.B.</th>
+        <th>Email</th>
+        <th>Phone No</th>
+        <th>ID No.</th>
+        <th>NHIF No.</th>
+        <th>Ward ID</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for patient in patients %}
+      <tr>
+        <td scope="row">{{ patient.id }}</td>
+        <td>{{ patient.firstname }} {{ patient.lastname }}</td>
+        <td>{{ patient.dob }}</td>
+        <td>{{ patient.email }}</td>
+        <td>{{ patient.phone_no }}</td>
+        <td>{{ patient.id_no }}</td>
+        <td>{{ patient.nhif_no }}</td>
+        <td>{{ patient.ward_id }}</td>
+        <td><a href=""><i data-feather="trash-2"></i></a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

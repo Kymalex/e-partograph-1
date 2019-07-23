@@ -4,11 +4,13 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_bootstrap import Bootstrap
 
 # local imports
 from config import app_config
 
 db = SQLAlchemy()
+boostrap = Bootstrap()
 
 def create_app(env_name):
 
@@ -19,6 +21,17 @@ def create_app(env_name):
 
   migrate = Migrate(app=app, db=db)
 
+  boostrap.init_app(app)
+
+  # import app models
+  from app.models import Nurse, Patient, Ward, Record
+
+  # flask shell
+  @app.shell_context_processor
+  def make_shell_context():
+    return dict(app=app, db=db, nurse=Nurse, patient=Patient, ward=Ward, record=Record)
+
+  # register blueprints
   from app.home import home as home_blueprint
   app.register_blueprint(home_blueprint)
 

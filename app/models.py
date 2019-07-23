@@ -2,9 +2,14 @@
 
 # inbuilt imports
 from datetime import datetime
+from uuid import uuid4
+from random import randint
 
 # 3rd party imports
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy.exc import IntegrityError
+from random import seed
+import forgery_py
 
 # local imports
 from app import db
@@ -17,17 +22,20 @@ class Nurse(db.Model):
   __tablename__ = 'nurses'
 
   id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-  emp_id = db.Column(db.String(32), nullable=False)
+  emp_id = db.Column(db.String(64), nullable=False, default=uuid4().hex)
   firstname = db.Column(db.String(32), nullable=False)
   lastname = db.Column(db.String(32), nullable=False)
+  email = db.Column(db.String(64), nullable=False)
+  phone_no = db.Column(db.String(64))
   password_hash = db.Column(db.String(255), nullable=False)
   is_admin = db.Column(db.Boolean, default=False)
   created_at = db.Column(db.DateTime, default = datetime.utcnow())
 
-  def __init__(self, emp_id, firstname, lastname, password):
-    self.emp_id = emp_id
+  def __init__(self, firstname, lastname, email, phone_no, password):
     self.firstname = firstname
     self.lastname = lastname
+    self.email = email
+    self.phone_no = phone_no
     self.password_hash = generate_password_hash(password)
 
   def verify_password(self, password):
@@ -40,6 +48,23 @@ class Nurse(db.Model):
   def save(self):
     db.session.add(self)
     db.session.commit()
+
+  @staticmethod
+  def generate_fake(count=5):
+    seed()
+    for i in range(count):
+      nurse = Nurse(
+        firstname=forgery_py.internet.user_name(),
+        lastname=forgery_py.internet.user_name(),
+        email=forgery_py.internet.email_address(),
+        phone_no = forgery_py.address.phone(),
+        password=forgery_py.lorem_ipsum.word(),
+      )
+      db.session.add(nurse)
+      try:
+        db.session.commit()
+      except IntegrityError as e:
+        db.session.rollback()
 
   def __repr__(self):
     return '<Nurse: {}>'.format(self.emp_id)
@@ -76,6 +101,27 @@ class Patient(db.Model):
     db.session.add(self)
     db.session.commit()
 
+  @staticmethod
+  def generate_fake():
+    seed()
+    wards = Ward.query.count()
+    ward = Ward.query.offset(randint(0, wards - 1)).first()
+    patient = Patient(
+      firstname = forgery_py.name.first_name(),
+      lastname = forgery_py.name.last_name(),
+      dob = forgery_py.date.date(),
+      phone_no = forgery_py.address.phone(),
+      email = forgery_py.internet.email_address(),
+      id_no = forgery_py.date.day(),
+      nhif_no = forgery_py.address.street_number(),
+      ward_id = ward.id
+    )
+    db.session.add(patient)
+    try:
+      db.session.commit()
+    except IntegrityError as e:
+      db.session.rollback()
+
   def __repr__(self):
     return '<Patient: {}>'.format(self.id)
 
@@ -88,7 +134,7 @@ class Ward(db.Model):
 
   id = db.Column(db.Integer, primary_key=True, autoincrement=True)
   name = db.Column(db.String(64), nullable=False)
-  beds = db.Column(db.Integers)
+  beds = db.Column(db.Integer)
   nurse_id = db.Column(db.Integer, db.ForeignKey('nurses.id'))
   created_at = db.Column(db.DateTime, default=datetime.utcnow())
 
@@ -101,6 +147,23 @@ class Ward(db.Model):
     db.session.add(self)
     db.session.commit()
 
+  @staticmethod
+  def generate_fake(count=5):
+
+    seed()
+    nurses = Nurse.query.count()
+    nurse = Nurse.query.offset(randint(0, nurses - 1)).first()
+    ward = Ward(
+      name = forgery_py.name.industry(),
+      beds = forgery_py.date.day(),
+      nurse_id = nurse.id
+    )
+    db.session.add(ward)
+    try:
+      db.session.commit()
+    except IntegrityError as e:
+      db.session.rollback()
+
   def __repr__(self):
     return '<Ward: {}>'.format(self.id)
 
@@ -109,7 +172,10 @@ class Record(db.Model):
   create records table
   '''
 
+  __tablename__ = 'records'
+
   id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+  full_blood_count = db.Column(db.String(64))
   patient_id = db.Column(db.Integer, db.ForeignKey('patients.id'))
   created_at = db.Column(db.DateTime, default=datetime.utcnow())
 

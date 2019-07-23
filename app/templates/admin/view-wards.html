@@ -1,0 +1,32 @@
+{% extends 'admin/layout.html' %}
+
+{% block content %}
+<h3>Wards</h3>
+<a href="{{ url_for('admin.create_ward') }}"><i data-feather="edit"></i></a>
+<hr>
+{{ nurse }}
+<div class="table-responsive-sm">
+  <table class="table table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Beds</th>
+        <th>Nurse</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for ward in wards %}
+      <tr>
+        <td scope="row">{{ ward.id }}</td>
+        <td>{{ ward.name }}</td>
+        <td>{{ ward.beds }}</td>
+        <td>{{ ward.nurse_id }}</td>
+        <td><a href=""><i data-feather="trash-2"></i></a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

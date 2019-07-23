@@ -1,0 +1,33 @@
+{% extends 'admin/layout.html' %}
+
+{% block content %}
+<h3>Nurses</h3>
+<a href="{{ url_for('admin.create_patient') }}"><i data-feather="edit"></i></a>
+<hr>
+<div class="table-responsive-sm">
+  <table class="table table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th>Emp ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone No</th>
+        <th>Admin</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for nurse in nurses %}
+      <tr>
+        <td scope="row">{{ nurse.emp_id }}</td>
+        <td>{{ nurse.firstname }} {{ nurse.lastname }}</td>
+        <td>{{ nurse.email }}</td>
+        <td>{{ nurse.phone_no }}</td>
+        <td>{{ nurse.is_admin }}</td>
+        <td><a href=""><i data-feather="trash-2"></i></a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
