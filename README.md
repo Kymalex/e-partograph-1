@@ -27,10 +27,12 @@
 | TOOL | PURPOSE |
 | ------ | ------ |
 | `Flask` | Python web application development framework |
-| `Postgres` | SQL base database |
+| `MySQL` | SQL base database |
+| `MySQLClient` | SQL base database connector |
 | `Flask-SQLAlchemy` | flask wrapper for Sqlalchemy - ORM |
 |  `Flask-Migrate` | Carry out database migrations |
 | `Flask-login` | |
+| `Flask-bootstrap` | |
 
 ### AUTHOR
 
